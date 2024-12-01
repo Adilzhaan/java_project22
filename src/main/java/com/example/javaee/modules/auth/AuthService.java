@@ -1,7 +1,6 @@
 package com.example.javaee.modules.auth;
 
 import com.example.javaee.entities.User;
-import com.example.javaee.modules.auth.dto.LoginDto;
 import com.example.javaee.modules.user.UserService;
 import com.example.javaee.modules.user.dto.CreateUserDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,15 +25,5 @@ public class AuthService {
     newUser.setPassword(hashedPassword);
 
     return userService.saveUser(newUser);
-  }
-
-  public boolean authenticateUser(LoginDto loginDto) {
-    User user = userService.findUserByUsername(loginDto.getUsername());
-
-    if (user == null) {
-      return false;
-    }
-
-    return passwordEncoder.matches(loginDto.getPassword(), user.getPassword());
   }
 }

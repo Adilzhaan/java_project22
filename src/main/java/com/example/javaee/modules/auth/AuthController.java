@@ -1,6 +1,5 @@
 package com.example.javaee.modules.auth;
 
-import com.example.javaee.modules.auth.dto.LoginDto;
 import com.example.javaee.modules.user.dto.CreateUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,27 +18,28 @@ public class AuthController {
     this.authService = authService;
   }
 
+  @GetMapping("/login")
+  public String showLoginPage() {
+    return "login";
+  }
+
+  @GetMapping("/register")
+  public String showRegisterPage() {
+    return "register";
+  }
+
   @PostMapping("/register")
-  public ResponseEntity<String> register(@RequestBody CreateUserDto createUserDto) {
+  public String register(@ModelAttribute CreateUserDto createUserDto, Model model) {
     try {
       authService.registerUser(createUserDto);
-      return ResponseEntity.ok("User registered successfully");
+      model.addAttribute("successMessage", "User registered successfully! Please log in.");
+      return "redirect:/api/auth/login";
     } catch (Exception e) {
-      return ResponseEntity.badRequest().body("Registration failed");
+      model.addAttribute("errorMessage", "Registration failed: " + e.getMessage());
+      return "register";
     }
   }
 
-  @PostMapping("/login")
-  public String login(@RequestBody LoginDto loginDto, Model model) {
-    boolean authenticated = authService.authenticateUser(loginDto);
-
-    if (authenticated) {
-      return "redirect:/dashboard";
-    } else {
-      model.addAttribute("errorMessage", "Invalid username or password.");
-      return "login";
-    }
-  }
 
   @GetMapping("/me")
   public ResponseEntity<Object> getCurrentUser() {

@@ -1,5 +1,5 @@
 package com.example.javaee.shared.enums;
 
 public enum Status {
-  PENDING, IN_PROGRESS, COMPLETED
+  NOT_STARTED, IN_PROGRESS, COMPLETED
 }
