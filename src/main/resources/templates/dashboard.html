@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, <span th:text="${username}">User</span>!</h1>
+      <a href="/logout">Logout</a>
+    </header>
+
+    <section>
+      <h2>Your Tasks</h2>
+
+      <form method="get" action="/tasks" id="filters-form">
+        <label for="category">Category:</label>
+        <select name="category" id="category">
+          <option value="">All</option>
+          <option
+            th:each="cat : ${categories}"
+            th:value="${cat.id}"
+            th:text="${cat.title}"
+          ></option>
+        </select>
+
+        <label for="status">Status:</label>
+        <select name="status" id="status">
+          <option value="">All</option>
+          <option value="PENDING">Pending</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+
+        <button type="submit">Apply Filters</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th><a href="/tasks?sort=dueDate">Due Date</a></th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="task : ${tasks}">
+            <td th:text="${task.dueDate}"></td>
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.status}"></td>
+            <td th:text="${task.priority}"></td>
+            <td>
+              <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a> |
+              <a
+                th:href="@{/tasks/delete/{id}(id=${task.id})}"
+                onclick="return confirm('Are you sure?');"
+                >Delete</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <a href="/tasks/add">Add Task</a>
+    </section>
+  </body>
+</html>
