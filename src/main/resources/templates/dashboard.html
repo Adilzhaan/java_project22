@@ -104,7 +104,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="bg-white rounded-lg shadow-md overflow-x-auto">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -167,18 +167,24 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <div class="flex items-center space-x-2">
                   <a
-                    th:href="@{/tasks/edit/{id}(id=${task.id})}"
+                    th:href="@{/dashboard/tasks/edit/{id}(id=${task.id})}"
                     class="text-primary hover:text-secondary"
                   >
                     <i data-lucide="edit" class="w-5 h-5"></i>
                   </a>
-                  <a
-                    th:href="@{/tasks/delete/{id}(id=${task.id})}"
-                    onclick="return confirm('Are you sure?');"
-                    class="text-red-600 hover:text-red-900"
+                  <form
+                    th:action="@{/dashboard/tasks/delete/{id}(id=${task.id})}"
+                    method="post"
+                    onsubmit="return confirm('Are you sure?');"
                   >
-                    <i data-lucide="trash" class="w-5 h-5"></i>
-                  </a>
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <button
+                      type="submit"
+                      class="text-red-600 hover:text-red-900"
+                    >
+                      <i data-lucide="trash" class="w-5 h-5"></i>
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>

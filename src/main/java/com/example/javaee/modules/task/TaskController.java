@@ -33,7 +33,7 @@ public class TaskController {
   public ResponseEntity<Task> createTask(
     @RequestBody @Valid CreateTaskDto createCategoryDto,
     Authentication authentication
-    ) {
+  ) {
     String username = authentication.getName();
     Task task = taskService.createTask(createCategoryDto, username);
     return ResponseEntity.ok(task);
@@ -44,7 +44,7 @@ public class TaskController {
     @PathVariable String id,
     @RequestBody @Valid UpdateTaskDto updateTaskDto,
     Authentication authentication
-    ) {
+  ) {
     String username = authentication.getName();
     Task task = taskService.updateTask(id, updateTaskDto, username);
     return ResponseEntity.ok(task);
